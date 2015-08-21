@@ -8,7 +8,7 @@ Written by Human Element's g-milligan
 See <a href="http://humanelement.github.io/he-tabs-plugin/" target="_blank">DEMO</a>
 
 Usage examples:
-```
+```Javascript
     //example 1
     heTabs.init({
       tabsSelector:'tabs#example_1'
