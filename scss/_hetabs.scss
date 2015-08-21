@@ -1,0 +1,73 @@
+$font01:'Source Sans Pro', sans-serif;
+
+tabs{
+  position:relative;display:block;float:left;width:100%;margin-bottom:2rem;
+
+  .tabs-btns{
+    float:left;display:block;width:100%;margin-bottom:1.6rem;white-space:nowrap;
+
+    .tab-btn{
+      @include transition(color .2s linear);@include noselect();color:#002856;position:relative;display:inline-block;float:left;padding:0 20px;height:35px;line-height:35px;cursor:pointer;font-family:$font01;font-size:17px;
+    }
+    .tab-btn:before {
+      @include transition(background-color .2s linear);content:"";display:block;position:absolute;top:0;left:0;width:100%;height:5px;background-color:transparent;
+    }
+    .tab-btn.active:before{
+      background-color:#32bcd4;
+    }
+    .tab-btn:hover:before{
+      background-color:#D0F6FD;
+    }
+    .tab-btn:hover{
+      color:#32bcd4;
+    }
+    .tab-btn:first-child{ padding-left:0; }
+    .tab-btn:last-child{ padding-right:0; }
+  }
+
+  .tabs-content{
+    position:relative;width:100%;min-height:200px;overflow:hidden;
+
+    .tab-slide-title{ display:none; }
+
+    tab{
+      position:fixed;left:-200%;top:-9999px;visibility:hidden;display:block;@include borderbox();
+
+      .tab-pad{
+        padding:2rem;background-color:#EAEAEA;float:left;width:100%;@include borderbox();
+
+        > *:last-child{padding-bottom:0;margin-bottom:0;}
+      }
+    }
+
+    tab.active{
+      position:relative;left:0;top:0;visibility:visible;display:block;
+    }
+  }
+}
+
+tabs.mobile-width{
+  .tabs-btns{ display:none; }
+  .tabs-content{
+    .tab-slide-title{font-family:$font01;background-color:#32bcd4;color:#fff;display:block;border:solid 1px rgba(255,255,255,.3);margin:0;padding:0 .5rem;font-size:23px;line-height:38px;cursor:pointer;@include noselect();}
+    .tab-slide-title:hover{opacity:.9;}
+    tab{position:relative;left:0;top:0;visibility:visible;display:block;}
+    tab{
+      .tab-slide-title:before{content:" + ";display:inline-block;width:20px;text-align:left;font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;}
+      .tab-slide-content{
+        height:0;overflow:hidden;
+
+        .tab-pad{padding:1rem;background-color:transparent;}
+      }
+    }
+    tab:last-child{
+      .tab-pad{
+        border-bottom:solid 1px #32bcd4;
+      }
+    }
+    tab.slide-out{
+      .tab-slide-title:before{content:" - ";}
+      .tab-slide-content{height:auto;}
+    }
+  }
+}

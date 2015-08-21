@@ -1,0 +1,93 @@
+<html>
+<head>
+  <title>HE Tabs</title>
+  <link type="text/css" rel="stylesheet" href="css/hetabs-styles.css" />
+
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/hetabs.js"></script>
+</head>
+<body>
+
+<h1>HE Tabs Demo</h1>
+
+<p>View inline source code to get the correct javascript code. Initialize tabs with a call to <strong>heTabs.init();</strong></p>
+
+<h2>Example 1</h2>
+
+<tabs id="example_1">
+  <tab name="Tab 1">Tab 1 content</tab>
+  <tab name="Test 2">Tab 2 content</tab>
+  <tab name="next 3">Tab 3 content</tab>
+  <tab name="Tab 4">Tab 4 content</tab>
+  <tab name="Test 5">Tab 5 content</tab>
+  <tab name="next 6">Tab 6 content</tab>
+  <tab name="Tab 7">Tab 7 content</tab>
+  <tab name="Test 8">Tab 8 content</tab>
+  <tab name="Last 9">Tab 9 content</tab>
+</tabs>
+
+<h2>Example 2 (Slooooowwww <u>mobile</u> slide)</h2>
+
+<tabs id="example_2">
+  <tab name="Tab 1">Tab 1 content</tab>
+  <tab name="Test 2">Tab 2 content</tab>
+  <tab name="next 3">Tab 3 content</tab>
+  <tab name="Tab 4">Tab 4 content</tab>
+  <tab name="Test 5">Tab 5 content</tab>
+  <tab name="next 6">Tab 6 content</tab>
+  <tab name="Tab 7">Tab 7 content</tab>
+</tabs>
+
+<h2>Example 3 (Open more than one <u>mobile</u> tab at a time)</h2>
+
+<tabs id="example_3">
+  <tab name="Tab 1">Tab 1 content</tab>
+  <tab name="Test 2">Tab 2 content</tab>
+  <tab name="next 3">Tab 3 content</tab>
+  <tab name="Tab 4">Tab 4 content</tab>
+  <tab name="Test 5">Tab 5 content</tab>
+  <tab name="next 6">Tab 6 content</tab>
+  <tab name="Tab 7">Tab 7 content</tab>
+  <tab name="Test 8">Tab 8 content</tab>
+</tabs>
+
+<h2>Example 4 (Default options)</h2>
+
+<tabs id="example_4">
+  <tab name="Tab 1">Tab 1 content</tab>
+  <tab name="Test 2">Tab 2 content</tab>
+  <tab name="last 3">Tab 3 content</tab>
+</tabs>
+
+<script type="text/javascript">
+  jQuery(document).ready(function(){
+
+    //example 1
+    heTabs.init({
+      tabsSelector:'tabs#example_1'
+    });
+
+    //example 2
+    heTabs.init({
+      tabsSelector:'tabs#example_2',
+      mobileSlideTime:2000 //slow mobile slide
+    });
+
+    //example 3
+    heTabs.init({
+      tabsSelector:'tabs#example_3',
+      mobileOpenOneAtATime:false //allow multiple mobile sliders to be open at one time
+    });
+
+    //example 3, default: same as "heTabs.init()"
+    heTabs.init({
+      tabsSelector:'tabs', //default selector
+      mobileSlideTime:300, //good slide speed
+      mobileOpenOneAtATime:true //expand only one mobile slider at a time
+    });
+
+  });
+</script>
+
+</body>
+</html>
