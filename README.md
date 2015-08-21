@@ -32,4 +32,9 @@ Usage examples:
       mobileSlideTime:300, //good slide speed
       mobileOpenOneAtATime:true //expand only one mobile slider at a time
     });
+    
+    // ... or ...
+    
+    heTabs.init(); //default settings
+    
 ```
