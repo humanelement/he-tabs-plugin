@@ -51,7 +51,24 @@
   <tab name="Test 8">Tab 8 content</tab>
 </tabs>
 
-<h2>Example 4 (Default options)</h2>
+<h2>Example 4 (custom button html)</h2>
+
+<tabs id="example_4">
+  <tab name="Tab 1">
+    <span class="my-button">Tab <em>Ayyy</em></span>
+    Tab 1 content
+  </tab>
+  <tab name="Test 2">
+    <span class="my-button">Tab <strong>Bee</strong></span>
+    Tab 2 content
+  </tab>
+  <tab name="last 3">
+    <span class="my-button">Tab <u>Cee</u></span>
+    Tab 3 content
+  </tab>
+</tabs>
+
+<h2>Example 5 (Default options)</h2>
 
 <tabs>
   <tab name="Tab 1">Tab 1 content</tab>
@@ -79,7 +96,13 @@
       mobileOpenOneAtATime:false //allow multiple mobile sliders to be open at one time
     });
 
-    //example 4, default: same as "heTabs.init()"
+    //example 4
+    heTabs.init({
+      tabsSelector:'tabs#example_4',
+      buttonHtmlSelector:'.my-button' //use custom HTML in the tab buttons, instead of default
+    });
+
+    //example 5, default: same as "heTabs.init()"
     heTabs.init({
       tabsSelector:'tabs', //default selector
       mobileSlideTime:300, //good slide speed

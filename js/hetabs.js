@@ -2,12 +2,13 @@ var heTabs = (function () {
   return {
     init:function(initArgs){
       //default configuration values:
-      var tabsSelector='tabs', mobileSlideTime=300, mobileOpenOneAtATime=true;
+      var tabsSelector='tabs', mobileSlideTime=300, mobileOpenOneAtATime=true, buttonHtmlSelector;
       if(initArgs!=undefined){
         //set different configuration values
         if(initArgs.hasOwnProperty('tabsSelector')){ tabsSelector=initArgs['tabsSelector']; }
         if(initArgs.hasOwnProperty('mobileSlideTime')){ mobileSlideTime=initArgs['mobileSlideTime']; }
         if(initArgs.hasOwnProperty('mobileOpenOneAtATime')){ mobileOpenOneAtATime=initArgs['mobileOpenOneAtATime']; }
+        if(initArgs.hasOwnProperty('buttonHtmlSelector')){ buttonHtmlSelector=initArgs['buttonHtmlSelector']; }
       }
       //code:
       var bodyElem=jQuery('body:first');
@@ -24,11 +25,14 @@ var heTabs = (function () {
         var hasActive=false, foundFirstActive=false;
         tabswrap.children('tab').each(function(i){
           var tab=jQuery(this); hasActive=tab.hasClass('active');
+          var tabBtnEl;
+          if(buttonHtmlSelector!=undefined){ tabBtnEl=tab.find(buttonHtmlSelector); }
           //build the tab button
           var tabName=tab.attr('name'); if(tabName==undefined){ tabName=''; }
           if(tabName.length<1){ tabName='[tab-name]'; }
           tabsbtns.append('<div class="tab-btn" name="'+i+'">'+tabName+'</div>');
           var tabBtn=tabsbtns.children('.tab-btn:last');
+          if(tabBtnEl!=undefined && tabBtnEl.length>0){ tabBtn.html(''); tabBtn.append(tabBtnEl); }
           //if there is a class list on this tab
           if(tab[0].classList){
             for(var c=0;c<tab[0].classList.length;c++){
