@@ -82,6 +82,13 @@
   <tab name="last 3">Tab 3 content</tab>
 </tabs>
 
+<h2>Example 7 (open a different tab, on page load, by default)</h2>
+<tabs id="example_7">
+  <tab name="Tab 1">Tab 1 content</tab>
+  <tab name="Test 2">Tab 2 content</tab>
+  <tab name="last 3">Tab 3 content</tab>
+</tabs>
+
 <script type="text/javascript">
   jQuery(document).ready(function(){
 
@@ -119,6 +126,13 @@
     heTabs.init({
       tabsSelector:'tabs#example_6', //default selector
       rememberOpenTab:true //keep the last tab open... even if the page is refreshed
+    });
+
+    //example 7
+    heTabs.init({
+      tabsSelector:'tabs#example_7', //default selector
+      rememberOpenTab:true, //keep the last tab open... even if the page is refreshed
+      defaultOpenTab:2 //set the index position (zero-based) for the tab that should be initially open
     });
 
   });

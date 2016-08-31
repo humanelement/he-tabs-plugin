@@ -2,7 +2,7 @@ var heTabs = (function () {
   return {
     init:function(initArgs){
       //default configuration values:
-      var tabsSelector='tabs', mobileSlideTime=300, mobileOpenOneAtATime=true, buttonHtmlSelector, rememberOpenTab=false;
+      var tabsSelector='tabs', mobileSlideTime=300, mobileOpenOneAtATime=true, buttonHtmlSelector, rememberOpenTab=false, defaultOpenTab=0;
       if(initArgs!=undefined){
         //set different configuration values
         if(initArgs.hasOwnProperty('tabsSelector')){ tabsSelector=initArgs['tabsSelector']; }
@@ -10,9 +10,7 @@ var heTabs = (function () {
         if(initArgs.hasOwnProperty('mobileOpenOneAtATime')){ mobileOpenOneAtATime=initArgs['mobileOpenOneAtATime']; }
         if(initArgs.hasOwnProperty('buttonHtmlSelector')){ buttonHtmlSelector=initArgs['buttonHtmlSelector']; }
         if(initArgs.hasOwnProperty('rememberOpenTab')){ rememberOpenTab=initArgs['rememberOpenTab']; }
-      }
-      if(rememberOpenTab){
-        var test='';
+        if(initArgs.hasOwnProperty('defaultOpenTab')){ defaultOpenTab=initArgs['defaultOpenTab']; }
       }
       //code:
       var bodyElem=jQuery('body:first');
@@ -151,8 +149,10 @@ var heTabs = (function () {
         });
         //if no tab is already set as active
         if(!hasActive){
+          var firstTab=tabswrap.find('.tab-btn:eq('+defaultOpenTab+')');
+          if(firstTab.length<1){ firstTab=tabswrap.find('.tab-btn:first'); }
           //set the first tab as active
-          tabswrap.find('.tab-btn:first').click();
+          firstTab.click();
         }
       });
       //init window events, if not already init
