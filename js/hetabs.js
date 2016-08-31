@@ -2,13 +2,17 @@ var heTabs = (function () {
   return {
     init:function(initArgs){
       //default configuration values:
-      var tabsSelector='tabs', mobileSlideTime=300, mobileOpenOneAtATime=true, buttonHtmlSelector;
+      var tabsSelector='tabs', mobileSlideTime=300, mobileOpenOneAtATime=true, buttonHtmlSelector, rememberOpenTab=false;
       if(initArgs!=undefined){
         //set different configuration values
         if(initArgs.hasOwnProperty('tabsSelector')){ tabsSelector=initArgs['tabsSelector']; }
         if(initArgs.hasOwnProperty('mobileSlideTime')){ mobileSlideTime=initArgs['mobileSlideTime']; }
         if(initArgs.hasOwnProperty('mobileOpenOneAtATime')){ mobileOpenOneAtATime=initArgs['mobileOpenOneAtATime']; }
         if(initArgs.hasOwnProperty('buttonHtmlSelector')){ buttonHtmlSelector=initArgs['buttonHtmlSelector']; }
+        if(initArgs.hasOwnProperty('rememberOpenTab')){ rememberOpenTab=initArgs['rememberOpenTab']; }
+      }
+      if(rememberOpenTab){
+        var test='';
       }
       //code:
       var bodyElem=jQuery('body:first');
@@ -59,11 +63,30 @@ var heTabs = (function () {
           var slideTitle=tab.children('.tab-slide-title:first');
           //put the tab content into the content div
           tabscontent.append(tab);
+          tabBtn[0]['rememberOpenTab']=rememberOpenTab;
+          tabBtn[0]['tabsSelector']=tabsSelector;
           //set the tab button event (desktop view tab button)
           tabBtn.click(function(e){
             e.preventDefault();
             //if this tab is not already selected
             if(!jQuery(this).hasClass('active')){
+              //if this tab should be remembered as open after page reload
+              if(jQuery(this)[0]['rememberOpenTab']){
+                //if not initial page load to set active (if there is already a tab active)
+                if(jQuery(this).parent().children('.active:first').length>0){
+                  var jsonStr=localStorage.getItem('he_tabs_persistent');
+                  var json={};
+                  if(jsonStr!=undefined && jsonStr.indexOf('{')!==-1){
+                    json=JSON.parse(jsonStr);
+                  }
+                  if(!json.hasOwnProperty(jQuery(this)[0]['tabsSelector'])){
+                    json[jQuery(this)[0]['tabsSelector']]={};
+                  }
+                  json[jQuery(this)[0]['tabsSelector']]['rememberOpenTab']=jQuery(this).index();
+                  jsonStr=JSON.stringify(json);
+                  localStorage.setItem('he_tabs_persistent', jsonStr);
+                }
+              }
               //deselect other tabs
               jQuery(this).parent().children('.tab-btn.active').removeClass('active');
               //select this tab
@@ -190,6 +213,18 @@ var heTabs = (function () {
           handleWindowResize();
         });
         window['heTabsWindowEventsInit']=true;
+      }
+      //if this tab should be remembered as open after page reload
+      if(rememberOpenTab){
+        var jsonStr=localStorage.getItem('he_tabs_persistent');
+        var json={};
+        if(jsonStr!=undefined && jsonStr.indexOf('{')!==-1){
+          json=JSON.parse(jsonStr);
+        }
+        if(json.hasOwnProperty(tabsSelector)){
+          var btn=tabs.find('.tabs-btns .tab-btn:eq('+json[tabsSelector]['rememberOpenTab']+')');
+          if(btn.length>0){ btn.click(); }
+        }
       }
     }
   };

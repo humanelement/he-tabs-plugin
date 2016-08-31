@@ -69,8 +69,14 @@
 </tabs>
 
 <h2>Example 5 (Default options)</h2>
-
 <tabs>
+  <tab name="Tab 1">Tab 1 content</tab>
+  <tab name="Test 2">Tab 2 content</tab>
+  <tab name="last 3">Tab 3 content</tab>
+</tabs>
+
+<h2>Example 6 (Remember open tabs, after page reloads)</h2>
+<tabs id="example_6">
   <tab name="Tab 1">Tab 1 content</tab>
   <tab name="Test 2">Tab 2 content</tab>
   <tab name="last 3">Tab 3 content</tab>
@@ -104,9 +110,15 @@
 
     //example 5, default: same as "heTabs.init()"
     heTabs.init({
-      tabsSelector:'tabs', //default selector
+      tabsSelector:'tabs:not([id])', //default selector
       mobileSlideTime:300, //good slide speed
       mobileOpenOneAtATime:true //expand only one mobile slider at a time
+    });
+
+    //example 6
+    heTabs.init({
+      tabsSelector:'tabs#example_6', //default selector
+      rememberOpenTab:true //keep the last tab open... even if the page is refreshed
     });
 
   });
