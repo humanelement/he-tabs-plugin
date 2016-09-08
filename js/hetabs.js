@@ -2,7 +2,7 @@ var heTabs = (function () {
   return {
     init:function(initArgs){
       //default configuration values:
-      var tabsSelector='tabs', mobileSlideTime=300, mobileOpenOneAtATime=true, buttonHtmlSelector, rememberOpenTab=false, defaultOpenTab=0;
+      var tabsSelector='tabs', mobileSlideTime=300, mobileOpenOneAtATime=true, buttonHtmlSelector, rememberOpenTab=false, defaultOpenTab=0, mobileModeOnly=false;
       if(initArgs!=undefined){
         //set different configuration values
         if(initArgs.hasOwnProperty('tabsSelector')){ tabsSelector=initArgs['tabsSelector']; }
@@ -11,6 +11,7 @@ var heTabs = (function () {
         if(initArgs.hasOwnProperty('buttonHtmlSelector')){ buttonHtmlSelector=initArgs['buttonHtmlSelector']; }
         if(initArgs.hasOwnProperty('rememberOpenTab')){ rememberOpenTab=initArgs['rememberOpenTab']; }
         if(initArgs.hasOwnProperty('defaultOpenTab')){ defaultOpenTab=initArgs['defaultOpenTab']; }
+        if(initArgs.hasOwnProperty('mobileModeOnly')){ mobileModeOnly=initArgs['mobileModeOnly']; }
       }
       //code:
       var bodyElem=jQuery('body:first');
@@ -19,6 +20,8 @@ var heTabs = (function () {
       tabs.each(function(){
         //init main wrappers
         var tabswrap=jQuery(this); tabswrap.addClass('init-he-tabs');
+        tabswrap[0]['mobileModeOnly']=mobileModeOnly;
+        if(mobileModeOnly){ tabswrap.addClass('mobile-width'); }
         tabswrap.prepend('<div class="tabs-content"></div>');
         var tabscontent=tabswrap.children('.tabs-content:first');
         tabswrap.prepend('<div class="tabs-btns"></div>');
@@ -166,36 +169,40 @@ var heTabs = (function () {
             //for each <tabs> group on the page
             tabs.each(function(){
               var tabswrap=jQuery(this);
-              tabswrap.removeClass('mobile-width');
-              var tabsbtns=tabswrap.children('.tabs-btns:first');
-              //for each tab (detect if it's breaking to the next line)
-              var topOffset, isMobileWidth=false;
-              tabsbtns.children().each(function(){
-                if(topOffset==undefined){
-                  //set first tab offset to compare to the next tab's top offset
-                  topOffset=jQuery(this).offset().top;
-                }else{
-                  //if this tab is on a different line break than the last
-                  if(topOffset!==jQuery(this).offset().top){
-                    isMobileWidth=true; return false;
+              if(!tabswrap[0]['mobileModeOnly']){
+                tabswrap.removeClass('mobile-width');
+                var tabsbtns=tabswrap.children('.tabs-btns:first');
+                //for each tab (detect if it's breaking to the next line)
+                var topOffset, isMobileWidth=false;
+                tabsbtns.children().each(function(){
+                  if(topOffset==undefined){
+                    //set first tab offset to compare to the next tab's top offset
+                    topOffset=jQuery(this).offset().top;
+                  }else{
+                    //if this tab is on a different line break than the last
+                    if(topOffset!==jQuery(this).offset().top){
+                      isMobileWidth=true; return false;
+                    }
+                  }
+                });
+                //if line break not detected
+                if(!isMobileWidth){
+                  var lastTabBtn=tabsbtns.children('.tab-btn:last');
+                  if(lastTabBtn.length>0){
+                    var wrapRightEdge=tabswrap.offset().left + tabswrap.outerWidth();
+                    var btnRightEdge=lastTabBtn.offset().left + lastTabBtn.outerWidth();
+                    if(wrapRightEdge<btnRightEdge){
+                      //buttons hanging beyond the right edge detected
+                      isMobileWidth=true;
+                    }
                   }
                 }
-              });
-              //if line break not detected
-              if(!isMobileWidth){
-                var lastTabBtn=tabsbtns.children('.tab-btn:last');
-                if(lastTabBtn.length>0){
-                  var wrapRightEdge=tabswrap.offset().left + tabswrap.outerWidth();
-                  var btnRightEdge=lastTabBtn.offset().left + lastTabBtn.outerWidth();
-                  if(wrapRightEdge<btnRightEdge){
-                    //buttons hanging beyond the right edge detected
-                    isMobileWidth=true;
-                  }
+                //if tab buttons are line-breaking or extending beyond the mobile width
+                if(isMobileWidth){
+                  //at mobile width
+                  tabswrap.addClass('mobile-width');
                 }
-              }
-              //if tab buttons are line-breaking or extending beyond the mobile width
-              if(isMobileWidth){
-                //at mobile width
+              }else{
                 tabswrap.addClass('mobile-width');
               }
             });
